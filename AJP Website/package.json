@@ -1,0 +1,18 @@
+{
+  "name": "ajp-website",
+  "version": "0.0.0",
+  "description": "AJP Website",
+  "main": "app.js",
+  "author": {
+    "name": "aaron"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.6",
+    "jquery": "^3.1.1",
+    "nodemailer": "^2.7.0"
+  }
+}

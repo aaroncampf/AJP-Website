@@ -1,0 +1,15 @@
+﻿{{> Header}}
+
+<div class="container body-content">
+	<div class="jumbotron">
+		<h1>Products</h1>
+		<p>Here is an overview of our products</p>
+	</div>
+
+	<h2>Categories</h2>
+	{{#each Categories}}
+	<a href="/Category/{{escape this}}">{{this}}</a> <br />
+	{{/each}}
+</div>
+
+{{> Footer}}

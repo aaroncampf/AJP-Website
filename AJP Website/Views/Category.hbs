@@ -1,0 +1,24 @@
+﻿{{> Header}}
+
+<div class="container body-content">
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li><a href="/Products">Products</a></li>
+		<li><a href="/Category/{{escape Category.Name}}">{{Category.Name}}</a></li>
+	</ol>
+	<hr />
+
+	<div class="jumbotron">
+		<h1>{{Category.Name}}</h1>
+	</div>
+
+	<h2>Groups</h2>
+	{{#each Category.Group}}
+	<a href="/Group/{{escape Name}}">{{Name}}</a> <br />
+	{{/each}}
+
+
+	
+</div>
+
+{{> Footer}}
