@@ -47,6 +47,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\Model_Classes.ts" />
     <TypeScriptCompile Include="server.ts" />
     <None Include="AJPWebsite - Web Deploy.pubxml" />
     <Content Include="Demo Data\PriceList.json">
@@ -79,6 +80,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Demo Data\" />
+    <Folder Include="Scripts\" />
     <Folder Include="typings\modules\serve-static\" />
     <Folder Include="Views\" />
     <Folder Include="typings\" />

@@ -1,4 +1,6 @@
 ﻿//TODO: Rebuild JSON data so items do not swap between arrays and objects :(
+//TODO: Start Removing the extra code to handle the swaping between arrays and objects
+Start Removing the extra code to handle the swaping between arrays and objects
 
 //#region Variables
 
