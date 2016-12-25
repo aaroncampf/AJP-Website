@@ -1,15 +1,15 @@
 //TODO: Rebuild JSON data so items do not swap between arrays and objects :(
 "use strict";
 //#region Variables
-var Categories = require("./Demo Data/PriceList.json").CATG;
+const Categories = require("./Demo Data/PriceList.json").CATG;
 //import Express = require("express");
-var Express = require("express");
-var handlebars = require("express-handlebars"); // TODOL Add TypeScript Def files then replace with Imports *
-var port = process.env.port || 1337;
-var app = Express();
+const Express = require("express");
+let handlebars = require("express-handlebars"); // TODOL Add TypeScript Def files then replace with Imports *
+const port = process.env.port || 1337;
+const app = Express();
 //#endregion
 //#region Setup
-var bodyParser = require("body-parser"); // required for POSTed form data
+let bodyParser = require("body-parser"); // required for POSTed form data
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({
     extended: true
@@ -21,20 +21,20 @@ app.use(Express.static("./node_modules/bootstrap/dist/css"));
 app.use(Express.static("./node_modules/jquery/dist"));
 //#endregion
 //#region Index
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
     res.render("Index");
 });
-app.get("/Products", function (req, res) {
+app.get("/Products", (req, res) => {
     res.render("Products", {
-        Categories: Categories.map(function (_) { return _.Name; }),
+        Categories: Categories.map(_ => _.Name),
         helpers: {
-            escape: function (text) { return encodeURIComponent(text); }
+            escape: (text) => encodeURIComponent(text)
         }
     });
 });
-app.get("/Category/:id", function (req, res) {
-    var Name = req.params.id;
-    var Category = Categories.find(function (_) { return _.Name === Name; });
+app.get("/Category/:id", (req, res) => {
+    const Name = req.params.id;
+    const Category = Categories.find(_ => _.Name === Name);
     if (Category === undefined) {
         res.render("Error");
     }
@@ -42,29 +42,29 @@ app.get("/Category/:id", function (req, res) {
         res.render("Category", {
             Category: Category,
             helpers: {
-                escape: function (text) { return encodeURIComponent(text); }
+                escape: (text) => encodeURIComponent(text)
             }
         });
     }
 });
-app.get("/AboutUs", function (req, res) {
+app.get("/AboutUs", (req, res) => {
     res.render("AboutUs");
 });
-app.get("/Group/:id", function (req, res) {
-    var ArrayOfGroups = Categories.map(function (_) { return _.Group; }).filter(function (_) { return _ !== undefined; });
-    var merged = [].concat.apply([], ArrayOfGroups);
-    var Group = merged.find(function (_) { return _.Name === req.params.id; });
-    var Category = Categories.filter(function (_) { return _.Group !== undefined; }).find(function (_) { return _.Group.indexOf(Group) !== -1; });
+app.get("/Group/:id", (req, res) => {
+    const ArrayOfGroups = Categories.map(_ => _.Group).filter(_ => _ !== undefined);
+    const merged = [].concat.apply([], ArrayOfGroups);
+    const Group = merged.find(_ => _.Name === req.params.id);
+    const Category = Categories.filter(_ => _.Group !== undefined).find(_ => _.Group.indexOf(Group) !== -1);
     res.render("Group", {
         Group: Group,
         CategoryName: Category.Name,
         helpers: {
-            escape: function (text) { return encodeURIComponent(text); }
+            escape: (text) => encodeURIComponent(text)
         }
     });
 });
 var nodemailer = require("nodemailer");
-app.post("/RequestQuote", function (req, res) {
+app.post("/RequestQuote", (req, res) => {
     var transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
@@ -76,7 +76,11 @@ app.post("/RequestQuote", function (req, res) {
         from: "aaroncampf@gmail.com",
         to: "aaroncampf@gmail.com",
         subject: "Request For Quote",
-        html: "<p>Company: " + req.body.Company + "</p>\n\t\t\t   <p>Contact: " + req.body.Contact + "</p>\n\t\t\t   <p>Email: " + req.body.Email + "</p>\n\t\t\t   <p>Phone: " + req.body.Phone + "</p>\n\t\t\t   <p>Details: " + req.body.Details + "</p>"
+        html: `<p>Company: ${req.body.Company}</p>
+			   <p>Contact: ${req.body.Contact}</p>
+			   <p>Email: ${req.body.Email}</p>
+			   <p>Phone: ${req.body.Phone}</p>
+			   <p>Details: ${req.body.Details}</p>`
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -90,22 +94,22 @@ app.post("/RequestQuote", function (req, res) {
         ;
     });
 });
-app.post("/SearchItems", function (req, res) {
+app.post("/SearchItems", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     //res.send(JSON.stringify({ a: 1 }));
-    var Search = req.body.Search;
-    var Results = [];
-    for (var i = 0; i < Categories.length; i++) {
-        var Groups = Categories[i].Group;
+    const Search = req.body.Search;
+    let Results = [];
+    for (let i = 0; i < Categories.length; i++) {
+        let Groups = Categories[i].Group;
         if (Groups == null)
             continue;
         for (var a = 0; a < Groups.length; a++) {
-            var Products = Groups[a].Product;
+            let Products = Groups[a].Product;
             if (Products == null)
                 continue;
             if (Array.isArray(Products)) {
                 for (var b = 0; b < Products.length; b++) {
-                    var Product = Products[b];
+                    let Product = Products[b];
                     if (Product.Name.includes(Search)) {
                         Results.push(Product);
                     }
