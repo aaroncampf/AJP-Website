@@ -1,5 +1,6 @@
-//#region Variables
+//TODO: Rebuild JSON data so items do not swap between arrays and objects :(
 "use strict";
+//#region Variables
 var Categories = require("./Demo Data/PriceList.json").CATG;
 //import Express = require("express");
 var Express = require("express");
@@ -88,6 +89,35 @@ app.post("/RequestQuote", function (req, res) {
         }
         ;
     });
+});
+app.post("/SearchItems", function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    //res.send(JSON.stringify({ a: 1 }));
+    var Search = req.body.Search;
+    var Results = [];
+    for (var i = 0; i < Categories.length; i++) {
+        var Groups = Categories[i].Group;
+        if (Groups == null)
+            continue;
+        for (var a = 0; a < Groups.length; a++) {
+            var Products = Groups[a].Product;
+            if (Products == null)
+                continue;
+            if (Array.isArray(Products)) {
+                for (var b = 0; b < Products.length; b++) {
+                    var Product = Products[b];
+                    if (Product.Name.includes(Search)) {
+                        Results.push(Product);
+                    }
+                }
+            }
+            else if (Products.Name.includes(Search)) {
+                Results.push(Products);
+            }
+        }
+    }
+    //res.send(JSON.stringify({ a: 1 }));
+    res.send(JSON.stringify(Results));
 });
 //#endregion
 app.listen(port);

@@ -8,6 +8,14 @@
 		<p>(503) 235-8341 (503) 231-3991 FAX</p>
 	</div>
 
+	<form action="/SearchItems" method="post">
+		<div class="form-group">
+			<label for="Name">Search Products</label>
+			<input class="form-control" type="text" name="Search"  onsubmit="SearchItems(this.Text)" />
+		</div>
+		<input type="submit" name="Submit" value="Submit" />
+	</form>
+
 	<div class="row">
 		<div class="col-lg-7">
 			AJP Northwest offers great service that frees our clients to concentrate on operating and growing their businesses. With over 100 years in business, AJP enjoys great relationships with vendors and customers. Learn how we put our expertise and experience to work everyday for our customers. Browse our website, request a quote or call us at 503-235-8341.
@@ -50,3 +58,9 @@
 </div>
 
 {{> Footer}}
+
+<script>
+	function SearchItems(Input) {
+		debugger;
+	}
+</script>
