@@ -1,10 +1,6 @@
-﻿//TODO: Rebuild JSON data so items do not swap between arrays and objects :(
-//TODO: Start Removing the extra code to handle the swaping between arrays and objects
-Start Removing the extra code to handle the swaping between arrays and objects
+﻿//#region Variables
 
-//#region Variables
-
-const Categories: any = require("./Demo Data/PriceList.json").CATG;
+const Categories: Array<CATG> = require("./Demo Data/PriceList.json").CATG;
 //import Express = require("express");
 import * as Express from "express";
 let handlebars: any = require("express-handlebars"); // TODOL Add TypeScript Def files then replace with Imports *
@@ -49,8 +45,8 @@ app.get("/Products", (req: any, res: any) => {
 });
 
 app.get("/Category/:id", (req: any, res: any) => {
-	const Name: any = req.params.id;
-	const Category: any = Categories.find(_ => _.Name === Name);
+	const Name: string = req.params.id;
+	const Category = Categories.find(_ => _.Name === Name);
 	if (Category === undefined) {
 		res.render("Error");
 	}
@@ -125,26 +121,20 @@ app.post("/SearchItems", (req: any, res: any) => {
     //res.send(JSON.stringify({ a: 1 }));
 
 	const Search: string = req.body.Search
-	let Results: Array<Object> = [];
+	let Results: Array<Product> = [];
 	
 	for (let i = 0; i < Categories.length; i++) {
-		let Groups: any[] = Categories[i].Group;
+		let Groups = Categories[i].Group;
 		if (Groups == null) continue;
 
 		for (var a = 0; a < Groups.length; a++) {
-			let Products: any[] | any = Groups[a].Product;
+			let Products = Groups[a].Product;
 			if (Products == null) continue;
-
-			if (Array.isArray(Products)) {
-				for (var b = 0; b < Products.length; b++) {
-					let Product = Products[b];
-					if (Product.Name.includes(Search)) {
-						Results.push(Product)
-					}
+			for (var b = 0; b < Products.length; b++) {
+				let Product = Products[b];
+				if (Product.Name.includes(Search)) {
+					Results.push(Product)
 				}
-			}
-			else if (Products.Name.includes(Search)) {
-				Results.push(Products)
 			}
 		}
 	}

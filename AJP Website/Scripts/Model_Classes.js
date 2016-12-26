@@ -1,8 +1,17 @@
-class CATG extends Array {
+/**
+ * Represents the first unit of grouping items
+ */
+class CATG {
 }
-class Group extends Array {
+/**
+ * Represents the second unit of grouping items
+ */
+class Group {
 }
-class Product extends Array {
+/**
+ * Represents a product that AJP sells
+ */
+class Product {
 }
 /**
  * A special price given to a customer for an item

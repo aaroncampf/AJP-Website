@@ -1,6 +1,5 @@
-//TODO: Rebuild JSON data so items do not swap between arrays and objects :(
-"use strict";
 //#region Variables
+"use strict";
 const Categories = require("./Demo Data/PriceList.json").CATG;
 //import Express = require("express");
 const Express = require("express");
@@ -107,16 +106,11 @@ app.post("/SearchItems", (req, res) => {
             let Products = Groups[a].Product;
             if (Products == null)
                 continue;
-            if (Array.isArray(Products)) {
-                for (var b = 0; b < Products.length; b++) {
-                    let Product = Products[b];
-                    if (Product.Name.includes(Search)) {
-                        Results.push(Product);
-                    }
+            for (var b = 0; b < Products.length; b++) {
+                let Product = Products[b];
+                if (Product.Name.includes(Search)) {
+                    Results.push(Product);
                 }
-            }
-            else if (Products.Name.includes(Search)) {
-                Results.push(Products);
             }
         }
     }
