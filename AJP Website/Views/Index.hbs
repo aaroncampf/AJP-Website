@@ -8,13 +8,22 @@
 		<p>(503) 235-8341 (503) 231-3991 FAX</p>
 	</div>
 
-	<form action="/SearchItems" method="post">
+	<!--<form action="/SearchItems" method="post">
 		<div class="form-group">
 			<label for="Name">Search Products</label>
-			<input class="form-control" type="text" name="Search"  onsubmit="SearchItems(this.Text)" />
+			<input class="form-control" type="text" name="Search"  />
 		</div>
 		<input type="submit" name="Submit" value="Submit" />
-	</form>
+		<button class="btn btn-primary" onclick="SearchItems(this.value)">Subut</button>
+	</form>-->
+
+	<div class="form-group">
+		<label for="Name">Search Products</label>
+		<input id="txtSearchBar" class="form-control" type="text" name="Search" />
+		<button class="btn btn-primary" onclick="SearchItems(this)">Subut</button>
+	</div>
+
+
 
 	<div class="row">
 		<div class="col-lg-7">
@@ -60,7 +69,9 @@
 {{> Footer}}
 
 <script>
-	function SearchItems(Input) {
+	function SearchItems(Button) {
+		var SearchBar = $("#txtSearchBar")
+
 		debugger;
 	}
 </script>
