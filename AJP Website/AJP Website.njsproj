@@ -73,6 +73,7 @@
     <Content Include="bin\setup_web.cmd" />
     <Content Include="bin\node.cmd" />
     <TypeScriptCompile Include="typings\modules\express-serve-static-core\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\jquery\index.d.ts" />
     <TypeScriptCompile Include="typings\modules\node\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
     <TypeScriptCompile Include="typings\modules\express\index.d.ts" />
@@ -81,6 +82,7 @@
     <Folder Include="bin\" />
     <Folder Include="Demo Data\" />
     <Folder Include="Scripts\" />
+    <Folder Include="typings\modules\jquery\" />
     <Folder Include="typings\modules\serve-static\" />
     <Folder Include="Views\" />
     <Folder Include="typings\" />
