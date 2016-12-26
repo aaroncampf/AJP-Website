@@ -1,6 +1,8 @@
 ﻿{{> Header}}
 
 <script src="../node_modules/jquery/dist/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <div class="container body-content">
 	<div class="jumbotron" style="background-color:transparent">
@@ -10,19 +12,9 @@
 		<p>(503) 235-8341 (503) 231-3991 FAX</p>
 	</div>
 
-	<!--<form action="/SearchItems" method="post">
-		<div class="form-group">
-			<label for="Name">Search Products</label>
-			<input class="form-control" type="text" name="Search"  />
-		</div>
-		<input type="submit" name="Submit" value="Submit" />
-		<button class="btn btn-primary" onclick="SearchItems(this.value)">Subut</button>
-	</form>-->
-
-	<div class="form-group">
-		<label for="Name">Search Products</label>
-		<input id="txtSearchBar" class="form-control" type="text" name="Search" />
-		<button class="btn btn-primary" onclick="SearchItems(this)">Subut</button>
+	<div class="ui-widget">
+		<label for="SearchItems" style="color:white">Search Items: </label>
+		<input id="SearchItems" size="50">
 	</div>
 
 
@@ -37,7 +29,7 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">Request A Quote</h3>
 				</div>
-				<div class="panel-body">	
+				<div class="panel-body">
 					<form action="/RequestQuote" method="post">
 						<div class="form-group">
 							<label for="Name">Company Name</label>
@@ -58,7 +50,7 @@
 						<div class="form-group">
 							<label for="Name">Details</label>
 							<input class="form-control" type="text" name="Details" />
-						</div>		
+						</div>
 						<input class="btn btn-primary" type="submit" value="Submit" onclick="" />
 					</form>
 
@@ -71,10 +63,43 @@
 {{> Footer}}
 
 <script>
-	function SearchItems(Button) {
-		var SearchBar = $("#txtSearchBar")
-		var Value = SearchBar[0].value;		
+	$(function () {
+		function split(val) {
+			return val.split(/,\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}
 
-		debugger;
-	}
+		$("#SearchItems")
+		  // don't navigate away from the field on tab when selecting an item
+		  .on("keydown", function (event) {
+		  	if (event.keyCode === $.ui.keyCode.TAB &&
+				$(this).autocomplete("instance").menu.active) {
+		  		event.preventDefault();
+		  	}
+		  })
+		  .autocomplete({
+		  	source: function (request, response) {
+		  		$.getJSON("/SearchItems", {
+		  			Search: extractLast(request.term)
+		  		},
+				response);
+		  	},
+		  	search: function () {
+		  		// custom minLength
+		  		var term = extractLast(this.value);
+		  		if (term.length < 2) {
+		  			return false;
+		  		}
+		  	},
+		  	focus: function () {
+		  		// prevent value inserted on focus
+		  		return false;
+		  	},
+		  	select: function (event, ui) {
+		  		window.location.href = '/Group/' + encodeURI(ui.item.value) + '/#' + encodeURI(ui.item.label)
+		  	}
+		  });
+	});
 </script>

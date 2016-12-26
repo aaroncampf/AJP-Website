@@ -1,4 +1,8 @@
-﻿<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+﻿<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<!-- Brand and toggle get grouped for better mobile display -->
 
@@ -11,7 +15,71 @@
 			<ul class="nav navbar-nav">
 				<li><a href="Products">Products</a></li>
 				<li><a href="AboutUs">Contact Us</a></li>
+				<li>
+				
+				</li>
 			</ul>
 		</div>
+		<!--<div class="pull-right">
+			<div class="ui-widget">
+				<label for="SearchItems" style="color:white">Search Items: </label>
+				<input id="SearchItems" size="50">
+			</div>
+		</div>-->
 	</div>
 </nav>
+
+<script>
+	$(function () {
+		function split(val) {
+			return val.split(/,\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}
+
+		$("#SearchItems")
+		  // don't navigate away from the field on tab when selecting an item
+		  .on("keydown", function (event) {
+		  	if (event.keyCode === $.ui.keyCode.TAB &&
+				$(this).autocomplete("instance").menu.active) {
+		  		event.preventDefault();
+		  	}
+		  })
+		  .autocomplete({
+		  	source: function (request, response) {
+		  		$.getJSON("/SearchItems", {
+		  			Search: extractLast(request.term)
+		  		},
+				response);
+		  	},
+		  	search: function () {
+		  		// custom minLength
+		  		var term = extractLast(this.value);
+		  		if (term.length < 2) {
+		  			return false;
+		  		}
+		  	},
+		  	focus: function () {
+		  		// prevent value inserted on focus
+		  		return false;
+		  	},
+		  	select: function (event, ui) {
+		  		/*
+		  		var terms = split(this.value);
+		  		// remove the current input
+		  		terms.pop();
+		  		// add the selected item
+		  		terms.push(ui.item.value);
+		  		// add placeholder to get the comma-and-space at the end
+		  		terms.push("");
+		  		this.value = terms.join(", ");
+		  		return false;
+				*/
+
+		  		//alert(ui.item.value);
+		  		window.location.href = '/Group/' + encodeURI(ui.item.value) & '/#' & encodeURI(ui.item.label)
+		  	}
+		  });
+	});
+</script>

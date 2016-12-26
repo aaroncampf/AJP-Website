@@ -93,11 +93,12 @@ app.post("/RequestQuote", (req, res) => {
         ;
     });
 });
-app.post("/SearchItems", (req, res) => {
+app.get("/SearchItems", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     //res.send(JSON.stringify({ a: 1 }));
-    const Search = req.body.Search;
+    const Search = req.query.Search;
     let Results = [];
+    let Results2 = [];
     for (let i = 0; i < Categories.length; i++) {
         let Groups = Categories[i].Group;
         if (Groups == null)
@@ -110,12 +111,13 @@ app.post("/SearchItems", (req, res) => {
                 let Product = Products[b];
                 if (Product.Name.includes(Search)) {
                     Results.push(Product);
+                    Results2.push({ label: Product.Name, value: Groups[a].Name });
                 }
             }
         }
     }
-    //res.send(JSON.stringify({ a: 1 }));
-    res.send(JSON.stringify(Results));
+    //res.send(JSON.stringify(Results));
+    res.send(Results2); //TODO: Find a way to do this client side for better control
 });
 //#endregion
 app.listen(port);

@@ -116,12 +116,13 @@ app.post("/RequestQuote", (req: any, res: any) => {
 	});
 });
 
-app.post("/SearchItems", (req: any, res: any) => {
+app.get("/SearchItems", (req: any, res: any) => {
     res.setHeader('Content-Type', 'application/json');
     //res.send(JSON.stringify({ a: 1 }));
 
-	const Search: string = req.body.Search
+	const Search: string = req.query.Search
 	let Results: Array<Product> = [];
+	let Results2: Array<{label: string, value: string}> = [];
 	
 	for (let i = 0; i < Categories.length; i++) {
 		let Groups = Categories[i].Group;
@@ -134,13 +135,14 @@ app.post("/SearchItems", (req: any, res: any) => {
 				let Product = Products[b];
 				if (Product.Name.includes(Search)) {
 					Results.push(Product)
+					Results2.push({ label: Product.Name, value: Groups[a].Name });
 				}
 			}
 		}
 	}
 
-	//res.send(JSON.stringify({ a: 1 }));
-	res.send(JSON.stringify(Results));
+	//res.send(JSON.stringify(Results));
+	res.send(Results2); //TODO: Find a way to do this client side for better control
 });
 
 //#endregion
